@@ -5,6 +5,56 @@ import UserProfileCard from "./components/UserProfileCard";
 import ProductDisplay from "./components/ProductDisplay";
 import { useState } from "react";
 
+const App = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [cartItems, setCartItems] = useState<string[]>([]);
+
+  const user = {
+    id: "1",
+    name: "John Doe",
+    email: "john.doe@example.com",
+    role: "Software Engineer",
+    avatarUrl:  "https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg",
+  };
+
+  const product = {
+    id: "1",
+    name: "Wireless Headphones",
+    price: 199.99,
+    description: "High-quality wireless headphones with noise cancellation.",
+    imageUrl: "https://d1ncau8tqf99kp.cloudfront.net/converted/110696_original_local_1200x1050_v3_converted.webp",
+    inStock: true,
+  };
+
+  const handleAddToCart = (productId: string) => {
+    setCartItems([...cartItems, productId]);
+    setShowAlert(true);
+  };
+
+  return (
+    <div className="p-4">
+      {showAlert && (
+        <AlertBox
+          type="success"
+          message="Product added to cart!"
+          onClose={() => setShowAlert(false)}
+        />
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <UserProfileCard user={user} showEmail={true} showRole={true} />
+
+        <ProductDisplay
+          product={product}
+          showDescription={true}
+          showStockStatus={true}
+          onAddToCart={handleAddToCart}
+        />
+      </div>
+    </div>
+  );
+};
+
 // function App() {
 //   const user = {
 //     id: "1",
@@ -107,55 +157,5 @@ import { useState } from "react";
 //     </main>
 //   );
 // }
-
-const App = () => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [cartItems, setCartItems] = useState<string[]>([]);
-
-  const user = {
-    id: "1",
-    name: "John Doe",
-    email: "john.doe@example.com",
-    role: "Software Engineer",
-    avatarUrl:  "https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg",
-  };
-
-  const product = {
-    id: "1",
-    name: "Wireless Headphones",
-    price: 199.99,
-    description: "High-quality wireless headphones with noise cancellation.",
-    imageUrl: "https://d1ncau8tqf99kp.cloudfront.net/converted/110696_original_local_1200x1050_v3_converted.webp",
-    inStock: true,
-  };
-
-  const handleAddToCart = (productId: string) => {
-    setCartItems([...cartItems, productId]);
-    setShowAlert(true);
-  };
-
-  return (
-    <div className="p-4">
-      {showAlert && (
-        <AlertBox
-          type="success"
-          message="Product added to cart!"
-          onClose={() => setShowAlert(false)}
-        />
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <UserProfileCard user={user} showEmail={true} showRole={true} />
-
-        <ProductDisplay
-          product={product}
-          showDescription={true}
-          showStockStatus={true}
-          onAddToCart={handleAddToCart}
-        />
-      </div>
-    </div>
-  );
-};
 
 export default App;
